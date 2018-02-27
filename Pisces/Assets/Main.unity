@@ -445,6 +445,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 7
 --- !u!1 &118539850
 GameObject:
@@ -708,6 +709,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 10
 --- !u!1 &147610422
 GameObject:
@@ -752,6 +754,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 4
 --- !u!1 &152366788
 GameObject:
@@ -1324,8 +1327,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numStudents: 0
-  lakeFish: 0
+  lakeFish: 350
   currentTurn: 0
+  maxCatchableFish: 0
+  m_fishToEat: 0
+  m_fishToExpand: 0
+  m_fishToInvest: 0
   Zodiacs: {fileID: 1522795707}
   ZodiacPanels: {fileID: 1555244238}
   StartButton: {fileID: 524184313}
@@ -2240,6 +2247,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 6
 --- !u!1 &537356856
 GameObject:
@@ -2726,6 +2734,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 5
 --- !u!1 &619881203
 GameObject:
@@ -2770,6 +2779,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 12
 --- !u!1 &637868056
 GameObject:
@@ -2937,8 +2947,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1941575039}
-        m_MethodName: AddStudents
+      - m_Target: {fileID: 424011225}
+        m_MethodName: LogEat
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3177,6 +3187,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 11
 --- !u!1 &747915995
 GameObject:
@@ -3310,6 +3321,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 3
 --- !u!1 &755573587
 GameObject:
@@ -3354,6 +3366,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 2
 --- !u!1 &781927236
 GameObject:
@@ -4697,6 +4710,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 8
 --- !u!1 &1126764354
 GameObject:
@@ -4772,6 +4786,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1126764354}
+--- !u!1 &1132384791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1132384792}
+  - component: {fileID: 1132384794}
+  - component: {fileID: 1132384793}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1132384792
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1132384791}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1741485093}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1132384793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1132384791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Submit
+--- !u!222 &1132384794
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1132384791}
 --- !u!1 &1142626317
 GameObject:
   m_ObjectHideFlags: 0
@@ -5825,8 +5913,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1941575039}
-        m_MethodName: AddStudents
+      - m_Target: {fileID: 424011225}
+        m_MethodName: LogInvest
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6346,8 +6434,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1941575039}
-        m_MethodName: AddStudents
+      - m_Target: {fileID: 424011225}
+        m_MethodName: LogExpand
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6677,7 +6765,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1555244239
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7019,7 +7107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1674997536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7037,6 +7125,7 @@ RectTransform:
   - {fileID: 1187069873}
   - {fileID: 1261477247}
   - {fileID: 390577225}
+  - {fileID: 1741485093}
   m_Father: {fileID: 282631800}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7078,6 +7167,128 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1674997535}
+--- !u!1 &1741485092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1741485093}
+  - component: {fileID: 1741485096}
+  - component: {fileID: 1741485095}
+  - component: {fileID: 1741485094}
+  m_Layer: 5
+  m_Name: SubmitButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1741485093
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1741485092}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1132384792}
+  m_Father: {fileID: 1674997536}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -71.5}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1741485094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1741485092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1741485095}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 424011225}
+        m_MethodName: SubmitButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &1741485095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1741485092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1741485096
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1741485092}
 --- !u!1 &1757416504
 GameObject:
   m_ObjectHideFlags: 0
@@ -7484,6 +7695,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 9
 --- !u!1 &1941575037
 GameObject:
@@ -7528,6 +7740,7 @@ MonoBehaviour:
   fishInPond: 0
   sizeOfPond: 0
   numStudentsInZodiac: 0
+  gameManager: {fileID: 424011223}
   turnOrder: 1
 --- !u!1 &1947734176
 GameObject:
