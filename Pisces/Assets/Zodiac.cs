@@ -24,7 +24,7 @@ public class Zodiac : MonoBehaviour {
 
     const int FISH_FOR_SURVIVAL = 4;
 
-    enum ZodiacType { Aries=1, Taurus=2, Gemini=3, Cancer=4, Leo=5, Virgo=6, Libra=7, Scorpio=8, Sagittarius=9, Capricorn=10, Aquarius=11, Pisces=12}
+    enum ZodiacType { Aries = 1, Taurus = 2, Gemini = 3, Cancer = 4, Leo = 5, Virgo = 6, Libra = 7, Scorpio = 8, Sagittarius = 9, Capricorn = 10, Aquarius = 11, Pisces = 12 }
     public int turnOrder = 0;
 
     // Use this for initialization

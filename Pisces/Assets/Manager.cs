@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Manager : MonoBehaviour {
 
@@ -28,7 +29,6 @@ public class Manager : MonoBehaviour {
     public GameObject ExpandInputField;
     public GameObject TurnNameText;
 
-    public InputFields eatField;
 
     //
 
@@ -45,7 +45,7 @@ public class Manager : MonoBehaviour {
         ToggleStartInterface(false);
 
         //divide students by 1.6(?) and round down to find how many fish each group can catch
-        maxCatchableFish = (int)Mathf.Floor(numStudents*1.6f);//change this magic number to the real formula's value later
+        maxCatchableFish = (int)Mathf.Floor(numStudents*.6f);//change this magic number to the real formula's value later
 
         ToggleTurnInterface(true);
         FindNextTurn();
@@ -66,6 +66,12 @@ public class Manager : MonoBehaviour {
 
     public void FindNextTurn()
     {
+        Debug.Log(currentTurn);
+        if(currentTurn >= 12)
+        {
+            Debug.Log("all turns taken, starting next round");
+            currentTurn = 0;
+        }
         if (currentTurn < 13)
         {
             currentTurn++;
@@ -74,25 +80,23 @@ public class Manager : MonoBehaviour {
                 if (child.GetComponent<Zodiac>().turnOrder == currentTurn)
                 {
                     child.GetComponent<Zodiac>().TakeTurn();
+                    TurnNameText.GetComponent<Text>().text = child.name;
                 }
             }
         }
-        else
-        {
-            Debug.Log("all turns taken");
-        }
-        //find gameobject whose zodiac = turn number, use their TakeTurn(), then check if FinalTurnComplete()
     }
 
     public void SubmitButtonClicked()
     {
-        //clear the input fields
 
         foreach (Transform child in Zodiacs.transform)
         {
             if (child.GetComponent<Zodiac>().turnOrder == currentTurn)
             {
                 child.GetComponent<Zodiac>().TurnSubmission(m_fishToEat, m_fishToInvest, m_fishToExpand);
+                EatInputField.GetComponent<InputField>().text = "";//clearing input fields
+                InvestInputField.GetComponent<InputField>().text = "";
+                ExpandInputField.GetComponent<InputField>().text = "";
                 break;
             }
         }
