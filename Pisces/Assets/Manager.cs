@@ -12,6 +12,12 @@ public class Manager : MonoBehaviour {
     public int currentTurn = 0;
     public int maxCatchableFish;
 
+    //variables reported from each zodiac at turn end
+    int z_eat;
+    int z_expand;
+    int z_invest;
+    string z_name;
+
     //variables that are logged during each turn
     public int m_fishToEat = 0;
     public int m_fishToExpand = 0;
@@ -28,6 +34,8 @@ public class Manager : MonoBehaviour {
     public GameObject InvestInputField;
     public GameObject ExpandInputField;
     public GameObject TurnNameText;
+    public GameObject TurnResultsText;
+    public GameObject TurnCatchLimitText;
 
 
     //
@@ -74,6 +82,7 @@ public class Manager : MonoBehaviour {
         }
         if (currentTurn < 13)
         {
+            TurnCatchLimitText.GetComponent<Text>().text = "You can catch " + maxCatchableFish + " fish.";
             currentTurn++;
             foreach (Transform child in Zodiacs.transform)
             {
@@ -97,9 +106,17 @@ public class Manager : MonoBehaviour {
                 EatInputField.GetComponent<InputField>().text = "";//clearing input fields
                 InvestInputField.GetComponent<InputField>().text = "";
                 ExpandInputField.GetComponent<InputField>().text = "";
+
+                TurnResultsText.GetComponent<Text>().text = z_name + " ate " + z_eat + " fish,\nexpanded using " + z_expand + " fish,\n and invested " + z_invest + " fish.";
+
                 break;
             }
         }
+    }
+
+    public void ReportResults(int eat, int expand, int invest, string name)
+    {
+        z_name = name; z_eat = eat; z_expand = expand; z_invest = invest;
     }
 
     public void LogEat(string fish)//reads the input field during turns so that the proper zodiac group can retrieve the variable

@@ -70,6 +70,8 @@ public class Zodiac : MonoBehaviour {
         //expand pond size
         //increase invested fish size
 
+        manager.ReportResults(fishToEat, fishToExpand, fishToInvest, this.name);
+
         manager.lakeFish -= (fishToEat + fishToCatch + fishToExpand);//remove caught fish from lake
 
         //erase the values now that we're done
