@@ -6,11 +6,19 @@ using UnityEngine.UI;
 
 public class Manager : MonoBehaviour {
 
-    //variables
+    #region variables
     public float numStudents = 0;
     public int lakeFish = 350;
     public int currentTurn = 0;
     public int maxCatchableFish;
+    public int currentYear = 1;
+    public int lakeCapacity;//(players*60) / (8/1) / .3/2
+    //12p = 720 / 8 / .15
+
+    public const float GROWTH_RATE = .3f;
+
+    int lakeFishCaughtThisYear;
+
 
     //variables reported from each zodiac at turn end
     int z_eat;
@@ -22,7 +30,10 @@ public class Manager : MonoBehaviour {
     public int m_fishToEat = 0;
     public int m_fishToExpand = 0;
     public int m_fishToInvest = 0;
+    #endregion
 
+
+    #region game objects
     //all the elements that hook into game manager
     public GameObject Zodiacs;
     public GameObject ZodiacPanels;
@@ -36,11 +47,18 @@ public class Manager : MonoBehaviour {
     public GameObject TurnNameText;
     public GameObject TurnResultsText;
     public GameObject TurnCatchLimitText;
+    public GameObject YearText;
+    public GameObject YearInfoPanel;
+    public GameObject YearInfoText;
+    public GameObject TurnInfoPanel;
+    public GameObject TurnInfoText;
+    #endregion
 
-
-    //
-
-
+    //TODO:
+    //check for deaths. kill x players based on uneaten fish. skip teams that have 0 alive players. keep a list of dead teams near bottom of screen. end game when all dead.
+    //create and hook up pond mechanics
+    //add explanation of game in start screen
+    //add images and pretty up the UI
     public void BeginGame()
     {
         numStudents = 0;//reset the number of students before starting a new game
@@ -52,11 +70,13 @@ public class Manager : MonoBehaviour {
         Debug.Log(numStudents + " students total.");
         ToggleStartInterface(false);
 
-        //divide students by 1.6(?) and round down to find how many fish each group can catch
-        maxCatchableFish = (int)Mathf.Floor(numStudents*.6f);//change this magic number to the real formula's value later
+        lakeCapacity = Convert.ToInt32((numStudents * 60) / 8 / .15);
+        maxCatchableFish = (int)numStudents;
+        lakeFish = Convert.ToInt32(lakeCapacity * .6);
 
         ToggleTurnInterface(true);
         FindNextTurn();
+
     }
 
     private void ToggleStartInterface(bool active)
@@ -75,27 +95,44 @@ public class Manager : MonoBehaviour {
     public void FindNextTurn()
     {
         Debug.Log(currentTurn);
-        if(currentTurn >= 12)
+        if(currentTurn >= 12)//if all turns were taken, the year has ended
         {
-            Debug.Log("all turns taken, starting next round");
+
+            float growthFish = GROWTH_RATE * lakeFish;//the amount the fish would increase at 50% capacity
+            float fishRatio = (float)lakeFish / (float)lakeCapacity;//the capacity ratio that influences how much the fish grow
+            int extraFish = Convert.ToInt32(growthFish - growthFish * fishRatio);//the actual amount of fish that will grow
+            lakeFish = lakeFish + extraFish;//the final value for how much fish we'll have at the end of the year due to growth
+
             currentTurn = 0;
+            currentYear++;
+            YearText.GetComponent<Text>().text = "Year " + currentYear;
+            YearInfoPanel.SetActive(true);
+            YearInfoText.GetComponent<Text>().text = lakeFishCaughtThisYear + " fish were caught last year.\n" + extraFish + 
+                " fish grew up at the end of the year.\n" + lakeFish + " lake fish remained at the end of the year.";
+            lakeFishCaughtThisYear = 0;
         }
-        if (currentTurn < 13)
+        if (currentTurn < 13)//go to the next person's turn
         {
             TurnCatchLimitText.GetComponent<Text>().text = "You can catch " + maxCatchableFish + " fish.";
             currentTurn++;
+            EatInputField.GetComponent<InputField>().Select();//focus the "eat" field each turn;
             foreach (Transform child in Zodiacs.transform)
             {
                 if (child.GetComponent<Zodiac>().turnOrder == currentTurn)
                 {
                     child.GetComponent<Zodiac>().TakeTurn();
                     TurnNameText.GetComponent<Text>().text = child.name;
+
+                    //update the turn info panel on the right hand side
+                    int fishNeeded = child.GetComponent<Zodiac>().numStudentsInZodiac * 4;
+                    TurnInfoText.GetComponent<Text>().text = "You must eat " + fishNeeded + " fish to survive.\nYou can catch " + maxCatchableFish + " fish.\n\nMax size of pond: " +
+                        child.GetComponent<Zodiac>().sizeOfPond + "\nFish in pond: " + child.GetComponent<Zodiac>().fishInPond;
                 }
             }
         }
     }
 
-    public void SubmitButtonClicked()
+    public void SubmitButtonClicked()//when the current team clicks the button to submit how many fish they will catch
     {
 
         foreach (Transform child in Zodiacs.transform)
@@ -107,16 +144,18 @@ public class Manager : MonoBehaviour {
                 InvestInputField.GetComponent<InputField>().text = "";
                 ExpandInputField.GetComponent<InputField>().text = "";
 
-                TurnResultsText.GetComponent<Text>().text = z_name + " ate " + z_eat + " fish,\nexpanded using " + z_expand + " fish,\n and invested " + z_invest + " fish.";
+                TurnResultsText.GetComponent<Text>().text = z_name + " ate " + z_eat + " fish,\nexpanded using " + z_expand + " fish,\nand invested " + z_invest + " fish.";
+
 
                 break;
             }
         }
     }
 
-    public void ReportResults(int eat, int expand, int invest, string name)
+    public void ReportResults(int eat, int expand, int invest, string name)//zodiacs call this function to give information about what they're doing with their fish
     {
         z_name = name; z_eat = eat; z_expand = expand; z_invest = invest;
+        lakeFishCaughtThisYear += (eat + expand + invest);//record all the fish caught so you can report it at end of year
     }
 
     public void LogEat(string fish)//reads the input field during turns so that the proper zodiac group can retrieve the variable

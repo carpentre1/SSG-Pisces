@@ -115,10 +115,6 @@ public class Zodiac : MonoBehaviour {
         {
             fishToInvest = fishToCatch;
         }
-        else
-        {
-            Debug.Log("all went as planned");//remove this debug message later
-        }
     }
 
     public void CheckStudents()//before starting the game, check the amount of students applied to each zodiac group
