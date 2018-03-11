@@ -9,6 +9,7 @@ public class Zodiac : MonoBehaviour {
     public int fishInPond;
     public int sizeOfPond;
     public int numStudentsInZodiac = 0;
+    public bool hasLost = false;
 
     bool turnCompleted = false;
     bool itIsMyTurn = false;
@@ -21,6 +22,7 @@ public class Zodiac : MonoBehaviour {
     int fishToEat;
     int fishToExpand;
     int fishToInvest;
+    int fishToEatFromPond;
 
     const int FISH_FOR_SURVIVAL = 4;
 
@@ -31,32 +33,31 @@ public class Zodiac : MonoBehaviour {
     void Start() {
         manager = gameManager.GetComponent<Manager>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void TakeTurn()//called when the manager decides it's their turn
     {
+        if(this.hasLost)//if this zodiac team has lost, skip their turn
+        {
+            itIsMyTurn = false;
+            manager.FindNextTurn();
+            return;
+        }
         itIsMyTurn = true;
         Debug.Log("It is " + this.name + "'s turn.");
     }
 
-    public void TurnSubmission(int eat, int invest, int expand)//when they click the submit button during their turn
+    public void TurnSubmission(int eat, int invest, int expand, int eatFromPond)//when they click the submit button during their turn
     {
+        manager.DeathText.SetActive(false);//clear death messages from previous turn
         if(!itIsMyTurn)//if it's not their turn, don't let them submit
         {
-            Debug.Log(this.name + " tried to submit when it wasn't their turn");
             return;
         }
-        fishToEat = eat; fishToInvest = invest; fishToExpand = expand;//assign the input field values to this group
+        fishToEat = eat; fishToInvest = invest; fishToExpand = expand; fishToEatFromPond = Math.Min(eatFromPond, fishInPond);//assign the input field values to this group
 
         fishToCatch = fishToEat + fishToExpand + fishToInvest;//catch the sum of desired fish to eat/expand/invest
         CheckFishQuantity();
-        Debug.Log("caught:" + fishToCatch);
         PrioritizeFish();
-        AnnounceTurnResults();
         RecordResults();
         itIsMyTurn = false;
         manager.FindNextTurn();
@@ -66,25 +67,42 @@ public class Zodiac : MonoBehaviour {
     {
         //TODO:
         //check to see if anyone dies
-        //add bonus eaten fish to score
         //expand pond size
         //increase invested fish size
 
-        manager.ReportResults(fishToEat, fishToExpand, fishToInvest, this.name);
+        manager.ReportResults(fishToEat, fishToExpand, fishToInvest, fishToEatFromPond, this.name);
 
         manager.lakeFish -= (fishToEat + fishToCatch + fishToExpand);//remove caught fish from lake
+
+        sizeOfPond += fishToExpand;
+        fishInPond = Math.Min(fishInPond + fishToInvest, sizeOfPond);
+
+        fishToEat += fishToEatFromPond;//add the pond fish to eat after determining what to do with the lake fish caught
+        fishInPond -= fishToEatFromPond;
+
+        if (fishToEat < numStudentsInZodiac * FISH_FOR_SURVIVAL)//if they don't have enough fish for all students to survive
+        {
+            int supportableStudents = (int)(fishToEat / 4);//the amount of students that WILL survive
+            int unsupportableStudents = numStudentsInZodiac - supportableStudents;
+            numStudentsInZodiac -= unsupportableStudents;//remove the dead students
+            manager.ReportDeath(unsupportableStudents, this);
+            if(numStudentsInZodiac <= 0)
+            {
+                numStudentsInZodiac = 0;
+                manager.numTeams -= 1;
+                if(manager.firstToDie == "")//if no one has died yet,
+                {
+                    manager.firstToDie = this.name;//this team gets the unlucky spotlight of first to die!
+                }
+                hasLost = true;
+            }
+            manager.ReportDeath(unsupportableStudents, this);//let the manager handle displaying the text
+        }
 
         //erase the values now that we're done
         manager.m_fishToEat = 0; manager.m_fishToExpand = 0; manager.m_fishToInvest = 0;
         fishToEat = 0; fishToExpand = 0; fishToInvest = 0;
         fishToCatch = 0;
-    }
-
-    private void AnnounceTurnResults()
-    {
-        Debug.Log(this.name + " ate " + fishToEat + " fish.");
-        Debug.Log(this.name + " expanded using " + fishToExpand + " fish.");
-        Debug.Log(this.name + " invested " + fishToInvest + " fish.");
     }
 
     void CheckFishQuantity()//limits how many fish they can catch
@@ -97,7 +115,6 @@ public class Zodiac : MonoBehaviour {
         {
             fishToCatch = manager.maxCatchableFish;
         }
-        Debug.Log(this.name + " caught " + fishToCatch);
     }
     void PrioritizeFish()//if they tried to eat/invest/expand more than they're allowed to catch, limit the values in order of eat>expand>invest
     {
