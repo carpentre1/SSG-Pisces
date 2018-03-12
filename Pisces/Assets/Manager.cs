@@ -56,6 +56,7 @@ public class Manager : MonoBehaviour {
     public GameObject TurnInfoText;
     public GameObject EndingText;
     public GameObject DeathText;
+    public GameObject QuitButton;
     #endregion
 
 
@@ -77,6 +78,17 @@ public class Manager : MonoBehaviour {
         ToggleTurnInterface(true);
         FindNextTurn();
 
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey("escape"))//exit game when you hit escape
+            Application.Quit();
     }
 
     private void ToggleStartInterface(bool active)
@@ -103,6 +115,7 @@ public class Manager : MonoBehaviour {
                     Debug.Log(child.name + " is the only team remaining! The game has ended.");
                     TurnPanel.SetActive(false);
                     EndingText.SetActive(true);
+                    QuitButton.SetActive(true);
                     EndingText.GetComponent<Text>().text = child.name + " is the only team remaining! The game has ended.\n" + firstToDie + " was the first team to die.\n" +
                         "How did the tragedy of the commons affect this game? Did any groups opt not to take as many fish as possible each turn? Why?\n" +
                         "If you were to design a game with limited resources, what would you do to account for the instinctually selfish nature of each player?";
